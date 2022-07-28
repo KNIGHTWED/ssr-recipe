@@ -20,3 +20,97 @@
 
 
 
+`config/webpack.config.server.js` 웹팩 환경 설정 파일
+
+
+
+---
+## solved
+
+`$ yarn eject` 
+이후에 js파일 첫줄에 짧게 빨간줄이 생긴다.
+
+package.json 
+```json
+"eslintConfig": {
+    "env": {
+      "NODE_ENV": "development"
+    },
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+```
+env 속성을 추가해주면 해결된다.
+
+---
+
+```
+$ node scripts/build.server.js
+```
+위의 명령어를 실행 후 생기는 에러
+```
+Error: Cannot find module 'url-loader'
+```
+해결 방법: `config/webpack.config.server.js` 안의 url-loader 설정 부분
+
+`url-loader` -> `resolve-url-loader` 로 수정
+
+>위와 같은 오류가 생겼을 때는 webpack.config.js를 확인해보고 다른 부분 찾으면 해결될 것 같다.
+
+---
+
+```
+$ yarn build:server
+```
+실행중 에러가 생겼다.
+
+에러 내용은
+
+>Module build failed,
+>
+>ValidationError: Invalid options object. CSS Loader has been initialized using an options object that does notmatch the API schema.
+>
+>options has an unknown property 'onlyLocals' ~ ~ ~
+
+모듈 빌드에 실패했고, onlyLocals 라는건 잘 모르겠다는 내용같다.
+
+이미 exportOnlyLocals에서 onlyLocals로 수정한건데 에러가 나왔다.
+
+onlyLocals가 또 바뀌어서 에러가 나왔다.
+
+webpack.config.server.js 안에 css-loader 부분 options를 바꿔주면 된다.
+```js
+// 바뀌기 이전
+options:{
+  modules: true,
+  onlyLocals: true,
+  getLocalIdent: getCSSModuleLocalIdent
+}
+
+// 바뀐 후
+options: {
+  modules: {
+    exportOnlyLocals: true
+  },
+  getLocalIdent: getCSSModuleLocalIdent
+}
+```
+
+```js
+// 바뀌기 이전
+options: {
+  onlyLocals: true
+}
+
+// 바뀐 후
+options: {
+  modules: {
+    exportOnlyLocals: true
+  }
+}
+```
+
+
+
