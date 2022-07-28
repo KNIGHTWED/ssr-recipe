@@ -114,3 +114,15 @@ options: {
 
 
 
+---
+
+## 진행 사항
+
+빌드는 정상적임
+
+실행하면 에러
+
+```
+Warning: React.createElement: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+```
